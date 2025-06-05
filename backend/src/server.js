@@ -2,7 +2,14 @@ require('dotenv').config();
 const app = require('./app'); // <--- Используем настроенное приложение из app.js
 const db = require('./config/db');
 const PORT = process.env.PORT || 3001;
+const { Pool } = require('pg');
 
+const pool = new Pool({
+  connectionString: process.env.DATABASE_URL,
+  ssl: {
+    rejectUnauthorized: false, // Render требует это, иначе будет SSL ошибка
+  },
+});
 // Пример использования пула для тестового запроса при старте (можно оставить или убрать)
 db.query('SELECT NOW()')
     .then(res => console.log('server.js: Тестовый запрос к БД выполнен успешно. Текущее время в БД:', res.rows[0]))
@@ -11,6 +18,4 @@ db.query('SELECT NOW()')
 app.listen(PORT, () => {
     console.log(`server.js: Сервер (используя app.js) запущен на порту ${PORT}`);
 });
- ssl: {
-    rejectUnauthorized: false, // Render требует это, иначе будет SSL ошибка
-  },
+ 
