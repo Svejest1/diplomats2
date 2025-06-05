@@ -11,3 +11,6 @@ db.query('SELECT NOW()')
 app.listen(PORT, () => {
     console.log(`server.js: Сервер (используя app.js) запущен на порту ${PORT}`);
 });
+ ssl: {
+    rejectUnauthorized: false, // Render требует это, иначе будет SSL ошибка
+  },
